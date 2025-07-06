@@ -5,7 +5,7 @@
 
 ## Credentials for testing
 
-u: home@example.com
+u: homer@example.com
 p: homerexample
 
 u: lisa@example.com
