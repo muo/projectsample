@@ -23,24 +23,59 @@
   </div>
 
   <div class="mt-10">
-    <h2 class="text-2xl font-bold mb-4">Comments</h2>
+    <h2 class="text-2xl font-bold mb-4">Timeline</h2>
 
-    <% if @project.comments.any? %>
+    <% if @project.timeline_items.any? %>
       <div class="space-y-4">
-        <% @project.comments.order(created_at: :desc).each do |comment| %>
-          <div class="p-4 bg-gray-50 rounded shadow">
-            <p class="text-gray-700"><%= comment.content %></p>
-
-            <p class="text-sm text-gray-500 mt-2">
-              Posted by
-              <span class="font-medium text-gray-700"><%= comment.user.email %></span>
-              at <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
-            </p>
-          </div>
+        <% @project.timeline_items.order(created_at: :desc).each do |timeline_item| %>
+          <% if timeline_item.resource_type == 'Comment' %>
+            <% comment = timeline_item.resource %>
+            <div class="p-4 bg-blue-50 rounded shadow border-l-4 border-blue-400">
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                  <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-500 text-white text-sm font-medium">
+                    💬
+                  </span>
+                </div>
+                <div class="flex-1 ml-2">
+                  <h4 class="text-sm font-medium text-blue-900">Comment Added</h4>
+                  <p class="text-gray-700 mt-1"><%= comment.content %></p>
+                  <p class="text-sm text-gray-500 mt-2">
+                    By <span class="font-medium text-gray-700"><%= comment.user.email %></span>
+                    at <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% elsif timeline_item.resource_type == 'StateChange' %>
+            <% state_change = timeline_item.resource %>
+            <div class="p-4 bg-yellow-50 rounded shadow border-l-4 border-yellow-400">
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                  <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-yellow-500 text-white text-sm font-medium">
+                    🔄
+                  </span>
+                </div>
+                <div class="flex-1 ml-2">
+                  <h4 class="text-sm font-medium text-yellow-900">State Changed</h4>
+                  <p class="text-gray-700 mt-1">
+                    State changed from
+                    <span class="px-2 py-1 text-xs font-medium bg-gray-200 text-gray-800 rounded"><%= state_change.old_state || 'none' %></span>
+                    to
+                    <span class="px-2 py-1 text-xs font-medium bg-green-200 text-green-800 rounded"><%= state_change.new_state %></span>
+                  </p>
+                  <p class="text-sm text-gray-500 mt-2">
+                    By <span class="font-medium text-gray-700"><%= state_change.user.email %></span>
+                    at <%= state_change.created_at.strftime("%Y-%m-%d %H:%M") %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     <% else %>
-      <p class="text-gray-500">No comments yet. Be the first to add one!</p>
+      <p class="text-gray-500">No activity yet. Add a comment or change the project state to see timeline items!</p>
     <% end %>
   </div>
 
