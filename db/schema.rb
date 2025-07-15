@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_15_065411) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_15_065715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,7 +37,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_15_065411) do
     t.bigint "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "resource_type", null: false
+    t.bigint "resource_id", null: false
     t.index ["project_id"], name: "index_timeline_items_on_project_id"
+    t.index ["resource_type", "resource_id"], name: "index_timeline_items_on_resource"
   end
 
   create_table "users", force: :cascade do |t|
