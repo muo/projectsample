@@ -5,7 +5,7 @@
   </p>
   <p class="my-5">
     <strong class="block font-medium mb-1">User:</strong>
-    <%= comment.user_id %>
+    <%= comment.user_email || comment.user.email %>
   </p>
   <p class="my-5">
     <strong class="block font-medium mb-1">Project:</strong>
