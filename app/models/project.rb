@@ -4,4 +4,5 @@ class Project < ApplicationRecord
   validates :state, inclusion: { in: %w[draft open completed closed] }
 
   has_many :comments, dependent: :destroy
+  has_many :timeline_items, dependent: :destroy
 end
